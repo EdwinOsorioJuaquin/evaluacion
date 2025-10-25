@@ -1,11 +1,38 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* ====== Estilos globales base ====== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  body {
+    @apply bg-ink-200 text-neutral-900 transition-colors duration-300 ease-in-out;
+  }
+
+  .dark body {
+    @apply bg-ink-500 text-neutral-100;
+  }
+
+  a {
+    @apply text-brand-500 hover:text-brand-400 transition-colors;
+  }
+
+  input, select, textarea {
+    @apply bg-ink-100 dark:bg-ink-700 border border-ink-300 dark:border-ink-600 rounded-lg text-neutral-900 dark:text-neutral-100 px-3 py-2 outline-none focus:ring-2 focus:ring-brand-400;
+  }
+
+  button {
+    @apply transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-brand-500 hover:bg-brand-400 text-white font-medium rounded-xl px-4 py-2 shadow-soft;
+  }
+
+  .btn-outline {
+    @apply border border-brand-400 text-brand-400 hover:bg-brand-500 hover:text-white rounded-xl px-4 py-2;
+  }
 }
