@@ -13,7 +13,14 @@
     </style>
 </head>
 <body class="bg-custom-dark min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full">
+    <div class="max-w-md w-full relative">
+        <!-- Botón Volver -->
+        <a href="{{ url('/evaluacion') }}"
+           class="absolute -top-8 -left-8 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-full p-3 shadow-lg transition duration-300"
+           title="Volver al inicio">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+
         <!-- Logo y Título -->
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-20 h-20 bg-custom-blue rounded-2xl mb-4">
@@ -24,7 +31,7 @@
         </div>
 
         <!-- Formulario de Login -->
-        <div class="bg-[#111115] p-8 rounded-2xl border border-gray-800">
+        <div class="bg-[#111115] p-8 rounded-2xl border border-gray-800 shadow-xl">
             <form method="POST" action="{{ route('evaluacion.login') }}">
                 @csrf
 
@@ -74,7 +81,7 @@
 
                 <!-- Botón de Login -->
                 <button type="submit" 
-                        class="w-full bg-custom-blue hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300">
+                        class="w-full bg-custom-blue hover:bg-sky-400 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300">
                     <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
                 </button>
             </form>

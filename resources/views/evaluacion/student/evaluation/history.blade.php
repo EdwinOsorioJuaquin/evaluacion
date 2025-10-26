@@ -23,7 +23,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-[#1f2937] rounded-xl border border-gray-800 p-6 text-center">
             <div class="text-2xl font-bold text-blue-400">{{ $stats['totalEvaluations'] ?? 0 }}</div>
-            <div class="text-gray-400 text-sm mt-1">Total Evaluaciones</div>
+            <div class="text-gray-400 text-sm mt-1">Total de preguntas</div>
         </div>
         <div class="bg-[#1f2937] rounded-xl border border-gray-800 p-6 text-center">
             <div class="text-2xl font-bold text-green-400">{{ $stats['totalInstructors'] ?? 0 }}</div>
@@ -269,7 +269,7 @@
                 @if($stats['totalEvaluations'] > 0)
                 <div class="flex items-center p-3 bg-green-500/10 rounded-lg border border-green-500/30">
                     <i class="fas fa-check-circle text-green-400 mr-3"></i>
-                    <span class="text-white">Has completado {{ $stats['totalEvaluations'] }} evaluaciones</span>
+                    <span class="text-white">Has completado {{ $stats['totalEvaluations'] }} preguntas</span>
                 </div>
                 @endif
             </div>

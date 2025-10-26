@@ -202,8 +202,8 @@
                 <i class="fas fa-list-alt text-blue-400 text-xl"></i>
             </div>
             <div class="flex-1">
-                <div class="font-semibold text-white">Ver Todas las Evaluaciones</div>
-                <div class="text-sm text-blue-300">Explora todas las evaluaciones disponibles</div>
+                <div class="font-semibold text-white">Ver Todas las Sesiones</div>
+                <div class="text-sm text-blue-300">Explora todas las sesiones disponibles</div>
             </div>
             <i class="fas fa-arrow-right text-blue-400 group-hover:translate-x-1 transition-transform"></i>
         </a>
@@ -215,8 +215,8 @@
                 <i class="fas fa-history text-green-400 text-xl"></i>
             </div>
             <div class="flex-1">
-                <div class="font-semibold text-white">Historial de Evaluaciones</div>
-                <div class="text-sm text-green-300">Revisa tus evaluaciones completadas</div>
+                <div class="font-semibold text-white">Historial de Sesiones</div>
+                <div class="text-sm text-green-300">Revisa tus sesiones completadas</div>
             </div>
             <i class="fas fa-arrow-right text-green-400 group-hover:translate-x-1 transition-transform"></i>
         </a>

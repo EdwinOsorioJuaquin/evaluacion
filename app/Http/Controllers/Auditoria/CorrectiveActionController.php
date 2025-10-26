@@ -135,7 +135,7 @@ public function updateExecutionDate(Request $request, Audit $audit, Finding $fin
     $correctiveAction->save();
 
     // Actualizar el hallazgo a 'Revisado' si todas las acciones están completadas
-    if ($finding->correctiveActions->every(fn($action) => $action->status == 'completed')) {
+    if ($finding->correctiveActions->every(fn($correctiveAction) => $correctiveAction->status == 'completed')) {
         $finding->classification = 'Revisado';
         $finding->save();
     }
@@ -168,7 +168,7 @@ public function updateStatus(Request $request, Audit $audit, Finding $finding, C
         $correctiveAction->save();
 
         // Si todas las acciones correctivas de un hallazgo están completas, actualizar el hallazgo a "Revisado"
-        if ($finding->correctiveActions->every(fn($action) => $action->status == 'completed')) {
+        if ($finding->correctiveActions->every(fn($correctiveAction) => $correctiveAction->status == 'completed')) {
             $finding->classification = 'Revisado';
             $finding->save();
         }
@@ -199,7 +199,7 @@ public function updateCompletionDate(Request $request, Audit $audit, Finding $fi
     $correctiveAction->save();
 
     // Actualizar el estado del hallazgo a "Revisado" si todas las acciones están completadas
-    if ($finding->correctiveActions->every(fn($action) => $action->status == 'completed')) {
+    if ($finding->correctiveActions->every(fn($correctiveAction) => $correctiveAction->status == 'completed')) {
         $finding->classification = 'Revisado';
         $finding->save();
     }
@@ -211,7 +211,7 @@ public function updateCompletionDate(Request $request, Audit $audit, Finding $fi
 
 // app/Http/Controllers/Auditoria/ActionController.php
 
-public function edit(Audit $audit, Finding $finding, CorrectiveAction $action)
+public function edit(Audit $audit, Finding $finding, CorrectiveAction $correctiveAction)
 {
     $usuarios = User::whereJsonContains('role', 'auditor')
                 ->orWhereJsonContains('role', 'admin')
@@ -220,7 +220,7 @@ public function edit(Audit $audit, Finding $finding, CorrectiveAction $action)
     return view('auditoria.actions.edit', [
         'audit' => $audit,
         'finding' => $finding,
-        'action' => $action,
+        'correctiveAction' => $correctiveAction,
         'usuarios' => $usuarios,
     ]);
 }

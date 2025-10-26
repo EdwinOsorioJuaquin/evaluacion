@@ -102,6 +102,28 @@
             color: #000;
         }
 
+        /* Botón Regresar al Landing - AÑADIDO */
+        .btn-landing {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .btn-landing:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(38, 187, 255, 0.2);
+        }
+
         /* ---------- MAIN ---------- */
         main {
             flex: 1;
@@ -333,6 +355,10 @@
     <header>
         <div class="logo"> <img src="{{ asset('images/Imagen_incadev.png') }}" alt="Logo INCADEV"> <span>INCADEV</span> </div>
 <nav>
+    <a href="/" class="btn-landing">
+                <i class="fas fa-home"></i>
+                Inicio
+    </a>
     <a href="{{ route('impacto.login') }}" class="btn-login">Iniciar Sesión</a>
     <a href="{{ route('impacto.register') }}" class="btn-register">Registrarse</a>
 </nav>

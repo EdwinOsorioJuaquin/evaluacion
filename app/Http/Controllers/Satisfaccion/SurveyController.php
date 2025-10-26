@@ -115,6 +115,7 @@ public function store(Request $request)
 {
     // Obtener el modelo Student relacionado con el usuario autenticado
     $user = auth()->user();
+    echo $user->id;
     $student = $user->student ?? null;
 
     // Si no existe registro en students, podrías redirigir o mostrar avisos en la vista

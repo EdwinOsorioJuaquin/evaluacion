@@ -90,11 +90,9 @@ public function hasRole($role)
 
 
     public function isAdminAuditor() { return $this->hasRole('adminAuditor'); }
-    public function isAdmin() { return $this->hasRole('admin'); }
     public function isAuditor() { return $this->hasRole('auditor'); }
     public function isAdminEvaluacion() { return $this->hasRole('adminEvaluacion'); }
     public function isAdminImpacto() { return $this->hasRole('adminImpacto'); }
-    public function isStudent() { return $this->hasRole('student'); }
 
     public function isInstructor()
     {
@@ -106,7 +104,7 @@ public function hasRole($role)
      private function getRawRole()
     {
         // Acceder al atributo sin el accessor
-        $role = $this->attributes['role'] ?? '"student"';
+        $role = $this->attributes['role'] ?? 'student';
         
         // Si es JSON, decodificarlo
         if (is_string($role) && strpos($role, '[') === 0) {
@@ -151,6 +149,23 @@ public function hasRole($role)
                 $user->full_name = trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? ''));
             }
         });
+    }
+
+    public function isAdmin()
+    {
+        // Si el rol está en el array (["admin"])
+        return is_array($this->role) && in_array('admin', $this->role);
+    }
+
+    public function isStudent()
+    {
+        // Si el rol está en el array (["student"])
+        return is_array($this->role) && in_array('student', $this->role);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(\App\Models\Student::class, 'user_id');
     }
 
 

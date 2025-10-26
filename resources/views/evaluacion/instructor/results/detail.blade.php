@@ -27,7 +27,7 @@
         
         <div class="bg-[#1f2937] rounded-xl border border-green-500 p-6 text-center">
             <div class="text-3xl font-bold text-green-400">{{ $stats['totalEvaluations'] ?? 0 }}</div>
-            <div class="text-gray-400 text-sm mt-1">Total Evaluaciones</div>
+            <div class="text-gray-400 text-sm mt-1">Total de Preguntas</div>
         </div>
         
         <div class="bg-[#1f2937] rounded-xl border border-yellow-500 p-6 text-center">

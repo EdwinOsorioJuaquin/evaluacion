@@ -73,6 +73,15 @@
         <div class="absolute bottom-20 right-1/4 w-24 h-24 bg-custom-blue rounded-full opacity-10 float-animation" style="animation-delay: 1.5s;"></div>
     </div>
 
+    <!-- Botón Regresar al Landing - AÑADIDO -->
+    <div class="fixed top-6 left-6 z-50">
+        <a href="/" 
+           class="btn-hover inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded-xl text-lg shadow-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300">
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span>Regresar al Inicio</span>
+        </a>
+    </div>
+
     <div class="max-w-6xl mx-auto px-6 py-12 relative z-10">
         <!-- Header con animación -->
         <div class="text-center mb-16 fade-in-up">

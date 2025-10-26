@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <a href="{{ route('findings.show', [$audit->id, $finding->id]) }}"
+      <a href="{{ route('auditoria.findings.show', [$audit->id, $finding->id]) }}"
          class="inline-flex items-center gap-2 h-9 rounded-2xl px-3
                 bg-ink-800/70 border border-ink-400/20 text-neutral-200
                 hover:bg-ink-700">
@@ -120,7 +120,7 @@
             <div class="pt-2">
               <form
                 method="POST"
-                action="{{ route('correctiveActions.start', ['audit' => $audit->id, 'finding' => $finding->id, 'correctiveAction' => $correctiveAction->id]) }}"
+                action="{{ route('auditoria.actions.start', ['audit' => $audit->id, 'finding' => $finding->id, 'correctiveAction' => $correctiveAction->id]) }}"
                 class="inline-flex">
                 @csrf
                 <button type="submit"
@@ -138,7 +138,7 @@
             <div class="pt-2">
               <form
                 method="POST"
-                action="{{ route('correctiveActions.updateExecutionDate', ['audit' => $audit->id, 'finding' => $finding->id, 'correctiveAction' => $correctiveAction->id]) }}"
+                action="{{ route('auditoria.actions.updateExecutionDate', ['audit' => $audit->id, 'finding' => $finding->id, 'correctiveAction' => $correctiveAction->id]) }}"
                 class="space-y-4">
                 @csrf
                 @method('PATCH')
@@ -174,7 +174,7 @@
                     Completar acción
                   </button>
 
-                  <a href="{{ route('findings.show', [$audit->id, $finding->id]) }}"
+                  <a href="{{ route('auditoria.findings.show', [$audit->id, $finding->id]) }}"
                      class="inline-flex items-center gap-2 rounded-2xl px-4 py-2.5
                             bg-ink-800/70 border border-ink-400/20 text-neutral-200 hover:bg-ink-700">
                     Cancelar

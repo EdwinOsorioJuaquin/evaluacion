@@ -31,9 +31,9 @@
     <div class="bg-smokyBlack/60 backdrop-blur-lg shadow-2xl rounded-3xl p-10 w-full max-w-md text-white border border-gray-800">
         {{-- LOGO --}}
         <div class="flex justify-center mb-6">
-            <img src="{{ asset('storage/incadev/incadev_logo_navbar_400h.png') }}"
+            <img src="{{ asset('images/incadev-logo.png') }}"
                  alt="INCADEV"
-                 class="h-20 object-contain drop-shadow-lg">
+                 class="h-20 object-contain drop-shadow-lg rounded-full border border-gray-700" />
         </div>
 
         
@@ -74,11 +74,15 @@
                 transition duration-300 transform hover:-translate-y-0.5 hover:shadow-xl">
                 Entrar
             </button>
+
+            {{-- BOTÓN PARA REDIRIGIR A SATISFACCIÓN --}}
+            <a href="/satisfaccion"
+                class="w-full inline-block text-center bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg 
+                transition duration-300 transform hover:-translate-y-0.5 hover:shadow-xl mt-4">
+                Ir a Inicio de Módulo
+            </a>
         </form>
     </div>
 
 </body>
 </html>
-
-
-

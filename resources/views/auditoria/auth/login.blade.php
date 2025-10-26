@@ -89,4 +89,14 @@
         ¿No tienes cuenta?
         <a href="{{ route('auditoria.auth.register') }}" class="text-brand-400 hover:text-brand-300 font-medium">Regístrate</a>
       </div>
+      <div>
+        <a href="{{ url('/') }}" 
+          class="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 bg-ink-700/60 border border-brand-400/40 text-brand-300 text-sm font-medium rounded-lg backdrop-blur-md hover:bg-ink-700 hover:border-brand-300 transition duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Volver al inicio
+        </a>
+
+      </div>
 </x-guest-layout>

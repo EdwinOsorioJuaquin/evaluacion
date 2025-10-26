@@ -48,7 +48,7 @@ Route::prefix('auditoria')->name('auditoria.')->group(function () {
             Route::get('/{audit}/edit', [AuditController::class, 'edit'])->name('audits.edit');
             Route::put('/{audit}/update', [AuditController::class, 'update'])->name('audits.update');
             Route::post('/{audit}/complete', [AuditController::class, 'complete'])->name('audits.complete');
-            Route::delete('/{audit}', [AuditController::class, 'destroy'])->name('audits.destroy');
+            Route::post('/{audit}', [AuditController::class, 'destroy'])->name('audits.destroy');
 
             /** REPORTES */
             Route::prefix('/{audit}/report')->group(function () {
@@ -72,17 +72,21 @@ Route::prefix('auditoria')->name('auditoria.')->group(function () {
                 Route::prefix('/{finding}/actions')->group(function () {
                     Route::get('/', [CorrectiveActionController::class, 'index'])->name('actions.index');
                     Route::post('/', [CorrectiveActionController::class, 'store'])->name('actions.store');
-                    Route::get('/{action}/show', [CorrectiveActionController::class, 'show'])->name('actions.show');
-                    Route::get('/{action}/edit', [CorrectiveActionController::class, 'edit'])->name('actions.edit');
-                    Route::put('/{action}/update', [CorrectiveActionController::class, 'update'])->name('actions.update');
-                    Route::delete('/{action}', [CorrectiveActionController::class, 'destroy'])->name('actions.delete');
+
+                    Route::get('/{correctiveAction}/show', [CorrectiveActionController::class, 'show'])->name('actions.show');
+                    Route::get('/{correctiveAction}/edit', [CorrectiveActionController::class, 'edit'])->name('actions.edit');
+                    Route::put('/{correctiveAction}/update', [CorrectiveActionController::class, 'update'])->name('actions.update');
+                    Route::delete('/{correctiveAction}', [CorrectiveActionController::class, 'destroy'])->name('actions.delete');
 
                     // Actualización de estado y fechas
-                    Route::patch('/{action}/status', [CorrectiveActionController::class, 'updateStatus'])->name('actions.status');
-                    Route::patch('/{action}/dates', [CorrectiveActionController::class, 'updateDates'])->name('actions.dates');
-                    Route::patch('/{action}/execution', [CorrectiveActionController::class, 'updateExecutionDate'])->name('actions.execution');
-                    Route::patch('/{action}/completion', [CorrectiveActionController::class, 'updateCompletionDate'])->name('actions.completion');
-                });
+                    // Rutas de estado y fechas
+                Route::patch('{correctiveAction}/show', [CorrectiveActionController::class, 'updateStatus'])->name('actions.updateStatus');
+                Route::post('{correctiveAction}/show', [CorrectiveActionController::class, 'updateStatus'])->name('actions.updateStatus.post');
+                Route::post('{correctiveAction}/start', [CorrectiveActionController::class, 'start'])->name('actions.start');
+                Route::patch('{correctiveAction}/update-dates', [CorrectiveActionController::class, 'updateDates'])->name('actions.updateDates');
+                Route::patch('{correctiveAction}/update-execution-date', [CorrectiveActionController::class, 'updateExecutionDate'])->name('actions.updateExecutionDate');
+                Route::patch('{correctiveAction}', [CorrectiveActionController::class, 'updateCompletionDate'])->name('actions.updateCompletionDate');
+            });
             });
         });
 
@@ -119,3 +123,4 @@ Route::prefix('auditoria')->name('auditoria.')->group(function () {
         Route::get('/test', fn() => view('dashboard'))->name('test');
     });
 });
+

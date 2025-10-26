@@ -1,16 +1,16 @@
-{{-- resources/views/auditoria/findings/show.blade.php --}}
+{{-- resources/views/findings/show.blade.php --}}
 <x-app-layout>
-  {{-- HEADER --}}
+  {{-- Header --}}
   <x-slot name="header">
     <div class="flex items-center justify-between">
       <h2 class="font-semibold text-xl text-neutral-100 leading-tight">
-        Detalles del Hallazgo
+        Detalles del hallazgo
       </h2>
 
       <a href="{{ route('auditoria.audits.show', $audit) }}"
          class="inline-flex items-center gap-2 h-9 rounded-2xl px-3
                 bg-ink-800/70 border border-ink-400/20 text-neutral-200
-                hover:bg-ink-700 transition">
+                hover:bg-ink-700">
         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <path stroke-linecap="round" stroke-width="1.8" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -22,67 +22,69 @@
   <div class="py-6">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-      {{-- ==================== RESUMEN DEL HALLAZGO ==================== --}}
+      {{-- ==================== CARD: RESUMEN DE HALLAZGO ==================== --}}
       <section class="rounded-2xl bg-ink-700/80 border border-ink-400/20 shadow-soft">
-        <div class="p-6 space-y-5">
-
+        <div class="p-6 space-y-4">
           {{-- Título y metadatos --}}
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
             <div>
-              <h3 class="text-lg md:text-xl font-semibold text-neutral-50 leading-snug">
+              <h3 class="text-lg md:text-xl font-semibold text-neutral-50">
                 {{ $finding->description }}
               </h3>
 
-              <div class="mt-3 flex flex-wrap items-center gap-2 text-xs">
+              <div class="mt-2 flex flex-wrap items-center gap-2 text-xs">
                 @php
                   $classMap = [
                     'Revisado'  => 'bg-green-500 text-white',
                     'Observado' => 'bg-yellow-500 text-black',
-                    'No aplica' => 'bg-neutral-600 text-white',
                   ];
                   $sevMap = [
-                    'high'   => ['text-danger-500 border-danger-500/30 bg-danger-500/10', 'Alta'],
-                    'medium' => ['text-warning-500 border-warning-500/30 bg-warning-500/10', 'Media'],
-                    'low'    => ['text-green-500 border-green-500/30 bg-green-500/10', 'Baja'],
+                    'high'   => ['text-danger-500 border-danger-500/30 bg-danger-500/10',  'Alta'],
+                    'medium' => ['text-warning-500 border-warning-500/30 bg-warning-500/10','Media'],
+                    'low'    => ['text-green-500 border-green-500/30 bg-green-500/10',     'Baja'],
                   ];
                   [$sevCls,$sevLbl] = $sevMap[strtolower($finding->severity ?? '')] ?? ['text-neutral-300 border-ink-400/30 bg-ink-800/60', ucfirst($finding->severity ?? '—')];
                 @endphp
 
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium {{ $classMap[$finding->classification] ?? 'bg-neutral-600 text-white' }}">
+                {{-- Clasificación --}}
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] {{ $classMap[$finding->classification] ?? 'bg-neutral-600 text-white' }}">
                   {{ ucfirst($finding->classification) }}
                 </span>
 
+                {{-- Severidad --}}
                 <span class="inline-flex items-center px-2 py-1 rounded-full border text-[11px] {{ $sevCls }}">
                   Severidad: {{ $sevLbl }}
                 </span>
 
+                {{-- Auditoría --}}
                 <span class="inline-flex items-center px-2 py-1 rounded-full border text-[11px] text-neutral-300 border-ink-400/30 bg-ink-800/60">
-                  Auditoría: <span class="ml-1 text-neutral-100 font-medium">{{ $audit->objective }}</span>
+                  Auditoría: <span class="ml-1 text-neutral-100">{{ $audit->objective }}</span>
                 </span>
               </div>
             </div>
 
-            {{-- Acción correctiva rápida --}}
+            {{-- Acción correctiva rápida (si Observado) --}}
             @if ($finding->classification === 'Observado' && $audit->state === 'in_progress')
-              <a href="{{ route('auditoria.actions.index', [$audit, $finding]) }}"
-                 class="inline-flex items-center gap-2 rounded-2xl px-4 py-2
-                        bg-warning-500 text-black font-semibold hover:bg-warning-600 transition">
+              <a href="{{ route('auditoria.actions.store', [$audit, $finding]) }}"
+                 class="inline-flex items-center gap-2 rounded-2xl px-3 py-2
+                        bg-warning-500 text-black font-semibold hover:bg-warning-700">
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path stroke-linecap="round" stroke-width="2" d="M12 5v14M5 12h14"/>
                 </svg>
-                Nueva acción correctiva
+                Agregar acción correctiva
               </a>
             @endif
           </div>
 
           {{-- Evidencia --}}
-          <div>
+          <div class="mt-2">
             <h4 class="text-sm font-semibold text-neutral-200 mb-2">Evidencia</h4>
 
             @php
+              // La columna "evidence" puede ser ruta de archivo o texto.
               $evidence = $finding->evidence;
-              $isFile = $evidence && strpos($evidence, '/') !== false;
-              $url = $isFile ? Storage::url($evidence) : null;
+              $isFile = $evidence && !str_starts_with($evidence, 'http') && str_contains($evidence, '/'); // heurística
+              $url = $isFile ? (Str::startsWith($evidence, ['http://','https://','/storage']) ? $evidence : Storage::url($evidence)) : null;
               $ext = $isFile ? strtolower(pathinfo($evidence, PATHINFO_EXTENSION)) : null;
             @endphp
 
@@ -104,22 +106,23 @@
                     {{ basename($evidence) }}
                   </a>
                 </div>
+
               @else
                 <div class="rounded-xl border border-ink-400/20 bg-ink-800/60 p-4 text-sm text-neutral-200">
                   {!! nl2br(e($evidence)) !!}
                 </div>
               @endif
 
-              {{-- Descargar --}}
+              {{-- Botón Descargar si es archivo --}}
               @if ($isFile)
                 <div class="mt-3">
                   <a href="{{ $url }}" download
                      class="inline-flex items-center gap-2 rounded-2xl px-3 py-2
-                            bg-ink-800/70 border border-ink-400/20 text-neutral-200 hover:bg-ink-700 transition">
+                            bg-ink-800/70 border border-ink-400/20 text-neutral-200 hover:bg-ink-700">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path stroke-linecap="round" stroke-width="1.8" d="M12 16V4m0 12l-3-3m3 3l3-3M4 20h16"/>
                     </svg>
-                    Descargar evidencia
+                    Descargar
                   </a>
                 </div>
               @endif
@@ -130,16 +133,16 @@
         </div>
       </section>
 
-      {{-- ==================== ACCIONES CORRECTIVAS ==================== --}}
+      {{-- ==================== CARD: ACCIONES CORRECTIVAS ==================== --}}
       <section class="rounded-2xl bg-ink-700/80 border border-ink-400/20 shadow-soft">
         <div class="p-6">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-lg font-semibold text-neutral-100">Acciones Correctivas</h3>
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-neutral-100">Acciones correctivas</h3>
 
             @if ($finding->classification === 'Observado' && $audit->state === 'in_progress')
               <a href="{{ route('auditoria.actions.store', [$audit, $finding]) }}"
                  class="inline-flex items-center gap-2 h-9 rounded-2xl px-3
-                        bg-brand-500 text-black font-semibold hover:bg-brand-400 transition">
+                        bg-brand-500 text-black font-semibold hover:bg-brand-400">
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path stroke-linecap="round" stroke-width="2" d="M12 5v14M5 12h14"/>
                 </svg>
@@ -167,14 +170,14 @@
                 </tr>
               </thead>
               <tbody>
-                @forelse ($finding->correctiveActions as $correctiveAction)
+                @forelse ($finding->correctiveActions as $action)
                   @php
-                    [$stCls,$stLbl] = $statusMap[$correctiveAction->status] ?? ['bg-neutral-600 text-white','—'];
+                    [$stCls,$stLbl] = $statusMap[$action->status] ?? ['bg-neutral-600 text-white','—'];
                   @endphp
-                  <tr class="border-t border-ink-400/10 hover:bg-ink-800/50 transition">
+                  <tr class="border-t border-ink-400/10 hover:bg-ink-800/50">
                     <td class="px-4 py-3">
                       <div class="font-medium text-neutral-100">
-                        {{ \Illuminate\Support\Str::limit($correctiveAction->description, 140) }}
+                        {{ \Illuminate\Support\Str::limit($action->description, 140) }}
                       </div>
                     </td>
                     <td class="px-4 py-3">
@@ -182,9 +185,22 @@
                         {{ $stLbl }}
                       </span>
                     </td>
-                    <td class="px-4 py-3 text-right">
+                    <td class="px-4 py-3">
+
                       <div class="flex items-center justify-end gap-2">
-                        <a href="{{ route('auditoria.actions.show', [$audit, $finding, $correctiveAction]) }}"
+                        @if ($action->status == 'pending')
+                          <form action="{{ route('auditoria.actions.start', [$audit, $finding, $action]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="inline-flex h-9 w-9 items-center justify-center rounded-xl
+                                                           bg-ink-800/70 border border-ink-400/20 hover:bg-ink-700"
+                                    title="Iniciar acción correctiva">
+                              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 12h14M12 5l7 7-7 7"/>
+                              </svg>
+                            </button>
+                          </form>
+                        @endif
+                        <a href="{{ route('auditoria.actions.show', [$audit, $finding, $action]) }}"
                            class="inline-flex h-9 w-9 items-center justify-center rounded-xl
                                   bg-ink-800/70 border border-ink-400/20 hover:bg-ink-700"
                            title="Ver detalle">
@@ -193,25 +209,22 @@
                             <circle cx="12" cy="12" r="3" stroke-width="1.8"/>
                           </svg>
                         </a>
-                        <a href="{{ route('auditoria.actions.edit', [$audit, $finding, $correctiveAction]) }}"
+                        <a href="{{ route('auditoria.actions.edit', [$audit, $finding, $action]) }}"
                            class="inline-flex h-9 w-9 items-center justify-center rounded-xl
                                   bg-ink-800/70 border border-ink-400/20 hover:bg-ink-700"
-                           title="Editar">
+                           title="Editar acción correctiva">
                           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 113 3L12 15l-4 1 1-4 9.5-9.5z"/>
                           </svg>
                         </a>
-                        <form method="POST" action="{{ route('auditoria.actions.delete', [$audit, $finding, $correctiveAction]) }}">
-                          @csrf @method('DELETE')
-                          <button type="submit"
-                                  class="inline-flex h-9 w-9 items-center justify-center rounded-xl
-                                         bg-ink-800/70 border border-ink-400/20 hover:bg-ink-700"
-                                  title="Eliminar">
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1zM4 7h16"/>
-                            </svg>
-                          </button>
-                        </form>
+                        <a href="{{ route('auditoria.actions.delete', [$audit, $finding, $action]) }}"
+                           class="inline-flex h-9 w-9 items-center justify-center rounded-xl
+                                  bg-ink-800/70 border border-ink-400/20 hover:bg-ink-700"
+                           title="Eliminaracción correctiva">
+                          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4a1 1 0 011 1v1H9V4a1 1 0 011-1zM4 7h16"/>
+                          </svg>
+                        </a>
                       </div>
                     </td>
                   </tr>

@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import path from 'path';
 
 export default defineConfig({
-    base: '/', // 🔧 ajusta según tu ruta base
+    base: '/evaluacion', // 🔧 ajusta según tu ruta base
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],

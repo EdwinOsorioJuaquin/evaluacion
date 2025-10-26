@@ -59,7 +59,7 @@ class ReportController extends Controller
     }
 
     // 4️⃣ Generar el PDF usando la vista Blade
-    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reports.pdf', compact('survey'));
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('satisfaccion.reports.pdf', compact('survey'));
     $pdf->save($filePath);
 
     // 5️⃣ Registrar en la tabla survey_reports

@@ -42,7 +42,7 @@
 
         {{-- FORMULARIO --}}
         <form method="POST"
-              action="{{ route('auditoria.actions.update', [$audit, $finding, $action]) }}"
+              action="{{ route('auditoria.actions.update', [$audit, $finding, $correctiveAction]) }}"
               class="space-y-6">
           @csrf
           @method('PUT')
@@ -58,7 +58,7 @@
                       class="w-full rounded-xl bg-ink-800/70 border border-ink-400/30
                              text-neutral-100 px-3 py-2 placeholder-neutral-400
                              focus:ring-brand-300 focus:border-brand-400"
-                      placeholder="Describe la acción correctiva a implementar...">{{ old('descripcion', $action->description) }}</textarea>
+                      placeholder="Describe la acción correctiva a implementar...">{{ old('descripcion', $correctiveAction->description) }}</textarea>
             @error('descripcion')
               <p class="mt-1 text-xs text-danger-400">{{ $message }}</p>
             @enderror
@@ -76,19 +76,20 @@
                             text-neutral-100 px-3 py-2 focus:ring-brand-300 focus:border-brand-400">
 
                 {{-- Opción por defecto: usuario actual asignado --}}
-                @if($action->user)
-                    <option value="{{ $action->user->id }}" selected>
-                    {{ $action->user->full_name }} (actual)
+                @if($correctiveAction->user)
+                    <option value="{{ $correctiveAction->user->id }}" selected>
+                    {{ $correctiveAction->user->full_name }} (actual)
                     </option>
                 @endif
 
                 {{-- Listar otros usuarios disponibles --}}
                 @foreach($usuarios as $usuario)
                     {{-- Evitar repetir el usuario actual --}}
-                    @if(!$action->user || $usuario->id !== $action->user->id)
+                    @if(!$correctiveAction->user || $usuario->id !== $correctiveAction->user->id)
                     <option value="{{ $usuario->id }}">
-                        {{ $usuario->full_name }} — {{ ucfirst($usuario->role) }}
+                        {{ $usuario->full_name }} — {{ ucfirst(is_array($usuario->role) ? $usuario->role[0] : $usuario->role) }}
                     </option>
+
                     @endif
                 @endforeach
             </select>
@@ -106,7 +107,7 @@
                 Fecha Límite
               </label>
               <input type="date" id="fecha_limite" name="fecha_limite"
-                     value="{{ old('fecha_limite', optional($action->fecha_limite)->format('Y-m-d')) }}"
+                     value="{{ old('fecha_limite', optional($correctiveAction->fecha_limite)->format('Y-m-d')) }}"
                      class="w-full rounded-xl bg-ink-800/70 border border-ink-400/30
                             text-neutral-100 px-3 py-2 focus:ring-brand-300 focus:border-brand-400" />
               @error('fecha_limite')
@@ -123,7 +124,7 @@
                              text-neutral-100 px-3 focus:ring-brand-300 focus:border-brand-400">
                 @php $prioridades = ['baja' => 'Baja', 'media' => 'Media', 'alta' => 'Alta']; @endphp
                 @foreach($prioridades as $key => $label)
-                  <option value="{{ $key }}" {{ old('prioridad', $action->prioridad) == $key ? 'selected' : '' }}>
+                  <option value="{{ $key }}" {{ old('prioridad', $correctiveAction->prioridad) == $key ? 'selected' : '' }}>
                     {{ $label }}
                   </option>
                 @endforeach
@@ -150,7 +151,7 @@
                 ];
               @endphp
               @foreach($estados as $key => $label)
-                <option value="{{ $key }}" {{ old('estado', $action->estado) == $key ? 'selected' : '' }}>
+                <option value="{{ $key }}" {{ old('estado', $correctiveAction->estado) == $key ? 'selected' : '' }}>
                   {{ $label }}
                 </option>
               @endforeach

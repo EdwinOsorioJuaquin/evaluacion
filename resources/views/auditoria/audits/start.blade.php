@@ -9,7 +9,7 @@
     <div class="bg-white shadow-md rounded-lg p-6">
         <h3 class="text-2xl font-semibold mb-4">Registrar Hallazgos</h3>
 
-        <form action="{{ route('audits.storeFinding', $audit->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('auditoria.audits.storeFinding', $audit->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Hallazgo -->

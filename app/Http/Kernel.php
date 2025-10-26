@@ -4,7 +4,8 @@ namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RoleMiddleware;  // Asegúrate de importar el Middleware
-use App\Http\Middleware\EnsureRole;  // Asegúrate de importar el Middleware
+use App\Http\Middleware\EnsureRole; 
+ // Asegúrate de importar el Middleware
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
